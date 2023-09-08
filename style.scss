@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
+:root{
+    --primary:#0279fb;
+    --secondary:#fff;
+    --bg_color:#f4f7ff;
+    --gray:#3c3e42;
+    --light_gray:#767b86;
+    --icon:#4b6a99;
+    #light{
+        display: none;
+    }
+}
+:root.dark{
+    --primary:#0279fb;
+    --secondary:#1f2a48;
+    --bg_color:#141c30;
+    --gray:#fff;
+    --light_gray:#848fa3;
+    --icon:#fdfefb;
+    #dark{
+        display: none;
+    }
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    color: var(--gray);
+    background-color:var(--bg_color);
+    font-family: 'Poppins', sans-serif;
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+
+
+ul{
+    list-style: none;
+}
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.flex_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex_between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.main_body{
+    width: 100%;
+    min-height: 100vh;
+}
+.container{
+    max-width: 32rem;
+    width: 100%;
+    padding: 1rem;
+}
+.navbar{
+    margin-bottom: 1.5rem;
+
+}
+main{
+    display: none;
+}
+#btn_theme{
+    cursor: pointer;
+}
+.header{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--secondary);
+    margin-bottom: 2rem;
+    .input_container{
+        display: flex;
+        gap: 0.5rem;
+        .input_box{
+            display: flex;
+            gap: 0.5rem;
+        flex: 1;
+            .input_icon{
+                font-size: 22px;
+            }
+            input.search{
+                border: none;
+                outline: none;
+                flex: 1;
+                font-size: 18px;
+                border-radius: 5px;
+                background-color: transparent;
+            }
+        }
+        .btn-primary{
+            padding: 14px 18px;
+            background-color: var(--primary);
+            color: #fff;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+}
+.main_card{
+    background-color: var(--secondary);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    .overview{
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        .profile_img{
+            width: 100px;
+            img{
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+    .main_content{
+        #bio{
+            margin: 1rem 0;
+        }
+    }
+    .card{
+        background-color: var(--bg_color);
+        margin-bottom: 1rem;
+        padding: 1rem 2rem;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        border-radius: 0.5rem;
+        h4{
+            span{
+                display: block;
+                &.text{
+                    font-size: 12px;
+                }&.data{
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    .icon_list{
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}
+.show{
+        display: block !important;
+}

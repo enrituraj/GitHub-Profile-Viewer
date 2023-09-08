@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="hggh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="main_body flex_center">
+        <div class="container">
+            <nav class="navbar flex_between">
+                <h3 class="logo">GitHub Profile Viewer</h3>
+                <div id="btn_theme">
+                    <span id="light">
+                        <span>Light <i class="bx bx-sun"></i></span>
+                    </span>
+                    <span id="dark">
+                        <span>Dark <i class="bx bx-moon"></i></span>
+                    </span>
+                </div>
+            </nav>
+            <header class="header">
+                <form class="input_container" id="githubForm">
+                    <div class="input_box">
+                        <i class="input_icon"></i>
+                        <input type="search" placeholder="Search Github Username..." class="search" name="search"
+                            id="search">
+                    </div>
+                    <button class="btn btn-primary">Search</button>
+                </form>
+            </header>
+            <main class="main_card">
+                <div class="overview">
+                    <div class="profile_img">
+                        <img src="./img/user.png" id="profile_img" alt="">
+                    </div>
+                    <div class="user_detail">
+                        <h1 id="name"></h1>
+                        <a id="username"></a>
+                        <div id="joined_at"></div>
+                    </div>
+                </div>
+
+                <div class="main_content">
+
+                    <div id="bio"></div>
+
+                    <div class="card">
+                        <h4>
+                            <span class="text">Repos</span>
+                            <span class="data" id="public_repos">00</span>
+                        </h4>
+                        <h4>
+                            <span class="text">Followers</span>
+                            <span class="data" id="followers">00</span>
+                        </h4>
+                        <h4>
+                            <span class="text">Following</span>
+                            <span class="data" id="following">00</span>
+                        </h4>
+                    </div>
+
+                    <ul class="icon_list">
+                        <li class="icon item">
+                            <a href="">
+                                <i class='bx bx-location-plus icon' ></i>
+                                <span id="location"></span>
+                            </a>
+                        </li>
+                        <li class="icon item">
+                            <a href="">
+                                <i class='bx bxl-twitter icon'></i>
+                                <span id="twitter"></span>
+                            </a>
+                        </li>
+                        <li class="icon item">
+                            <a href="">
+                                <i class='bx bx-link icon'></i>
+                                <span id="blog"></span>
+                            </a>
+                        </li>
+                        <li class="icon item">
+                            <a href="">
+                                <i class='bx bxs-business icon' ></i>
+                                <span id="working_at"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script>
+    function displayData(data){
+        let obj = {
+            picture: data.avatar_url || null,
+            name: data.name || null,
+            username: data.login || null,
+            joined_at: data.created_at || null,
+            bio: data.bio || null,
+            public_repos: data.public_repos || '00',
+            followers: data.followers || '00',
+            following: data.following || '00',
+            location: data.location || null,
+            twitter: data.twitter_username || null,
+            blog: data.blog || null,
+            working_at: data.company || null
+        }
+        console.log("data is ",obj);
+        //img
+        document.getElementById('profile_img').src = obj.picture;
+        //JOINED DATE
+        const inputDate = new Date(obj.joined_at);
+        const day = inputDate.getDate();
+        const monthIndex = inputDate.getMonth();
+        const year = inputDate.getFullYear();
+        const monthNames = ["January", "February", "March","April", "May", "June", "July","August", "September", "October","November", "December"];
+        const formattedDate = `Joined ${day} ${monthNames[monthIndex]} ${year}`;
+        document.getElementById('joined_at').innerHTML = formattedDate;
+        document.querySelector("main").style.display="block";
+        for (const key in obj) {
+            const element = document.getElementById(key);
+            if(key == 'picture' || key == "joined_at"){
+                continue;
+            }
+            console.log(key);
+            if (element) {
+                element.textContent = obj[key] || 'Not Available';
+            }
+        }
+    }
+
+    async function get_user_data(username) {
+        const URL='https://api.github.com/users/' + username;
+        const Res= fetch(URL);
+        const response= await Res;
+        const json= await response.json();
+        displayData(json);
+        console.log(json);
+    }
+    //get_user_data('enrituraj')
+
+
+const githubForm = document.getElementById('githubForm');
+githubForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const searchInput = document.getElementById('search');
+    const username = searchInput.value;
+    console.log('GitHub Username:', username);
+    get_user_data(username)
+    githubForm.reset();
+});
+
+
+
+
+        //theme setup 
+        let currentTheme = localStorage.getItem("theme");
+        let btn_theme = document.getElementById('btn_theme');
+        let html = document.querySelector('html');
+
+
+        const enableDarkMode = () => {
+            localStorage.setItem('theme', 'Dark');
+            html.classList.add('dark');
+            document.getElementById("dark").classList.remove("show");
+            document.getElementById("light").classList.add("show");
+        }
+
+        const disableDarkMode = () => {
+            localStorage.setItem('theme', 'Light');
+            html.classList.remove('dark');
+            document.getElementById("dark").classList.add("show");
+            document.getElementById("light").classList.remove("show");
+        }
+        if (currentTheme === "Dark") {
+            enableDarkMode()
+        }
+        btn_theme.addEventListener('click', () => {
+            currentTheme = localStorage.getItem('theme')
+            // if (currentTheme != "Dark") {
+            //     enableDarkMode()
+            // } else {
+            //     disableDarkMode()
+            // }
+            currentTheme != "Dark" ? enableDarkMode() : disableDarkMode();
+        })
+
+    </script>
+
+</body>
+
+</html>
